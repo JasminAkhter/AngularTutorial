@@ -1,0 +1,63 @@
+<section class="py-5" style="background: #eef2f7;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm rounded-4">
+          <div class="card-header text-center" style="background: linear-gradient(to right, #a3c4f3, #cdb4db);">
+            <h3 class="mb-0 text-white fw-bold">Bank Form</h3>
+          </div>
+          <div class="card-body p-4" style="background: #fdfdff;">
+            <form>
+              <div class="mb-3 row align-items-center">
+                <label for="bankName" class="col-md-4 col-form-label text-end">Bank Name : <span class="text-danger">*</span></label>
+                <div class="col-md-8">
+                  <input type="text" class="form-control" id="bankName" placeholder="Enter bank name" required style="background-color: #f3f6fb;">
+                </div>
+              </div>
+
+              <div class="mb-3 row align-items-center">
+                <label for="branchName" class="col-md-4 col-form-label text-end">Branch Name : <span class="text-danger">*</span></label>
+                <div class="col-md-8">
+                  <input type="text" class="form-control" id="branchName" placeholder="Enter branch name" required style="background-color: #f3f6fb;">
+                </div>
+              </div>
+
+              <div class="mb-3 row align-items-center">
+                <label for="accountNumber" class="col-md-4 col-form-label text-end">Account Number : <span class="text-danger">*</span></label>
+                <div class="col-md-8">
+                  <input type="text" class="form-control" id="accountNumber" placeholder="Enter account number" required style="background-color: #f3f6fb;">
+                </div>
+              </div>
+
+              <div class="mb-3 row align-items-center">
+                <label for="accountType" class="col-md-4 col-form-label text-end">Account Type :</label>
+                <div class="col-md-8">
+                  <select class="form-select" id="accountType" style="background-color: #f3f6fb;">
+                    <option selected disabled>Select account type</option>
+                    <option value="savings">Savings</option>
+                    <option value="current">Current</option>
+                    <option value="fixed">Fixed Deposit</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-4 row align-items-center">
+                <label for="bankAddress" class="col-md-4 col-form-label text-end">Bank Address :</label>
+                <div class="col-md-8">
+                  <textarea class="form-control" id="bankAddress" rows="3" placeholder="Enter bank address" style="background-color: #f3f6fb;"></textarea>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 text-center">
+                  <button type="submit" class="btn btn-primary btn-lg px-5" style="background: linear-gradient(to right, #6fa8dc, #9b59b6); border: none;">Submit</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

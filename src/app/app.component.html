@@ -1,9 +1,72 @@
+<nav class="navbar navbar-expand-lg shadow-sm" style="background: linear-gradient(to right, #6a11cb, #2575fc);">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white fw-bold fs-4" href="#">Customer Portal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-<div style="text-align: center;">
-    <h1>
-        Welcome to {{title}}!
-    </h1>
-    <h2>Hello there!</h2>
-    
-</div>
-<router-outlet />
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" routerLink="/home" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" routerLink="/customer" routerLinkActive="active">Customer</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-semibold" routerLink="/bank" routerLinkActive="active">Bank</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white fw-semibold" href="#" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Options
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action 1</a></li>
+            <li><a class="dropdown-item" href="#">Action 2</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <form class="d-flex" role="search">
+        <input class="form-control me-2 rounded-pill" type="search" placeholder="Search..." aria-label="Search">
+        <button class="btn btn-light rounded-pill fw-semibold" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+<!-- <h2 style="text-align: center;">Welcome to my Project</h1> -->
+
+<!-- <section class="d-flex justify-content-center align-items-center" style="height: 75vh; background-color: #e9f5ff;">
+  <div class="text-center p-5 p-md-6 rounded shadow-lg" 
+       style="background: linear-gradient(135deg, #a5e0f7, #ffffff); max-width: 600px; transition: transform 0.3s;">
+    <h1 class="fw-bold mb-4" style="color: #0275d8; font-size: 3rem;">Welcome!</h1>
+    <p class="mb-5" style="color: #034f84; font-size: 1.25rem;">To my Project</p>
+    <a href="#" class="btn btn-primary btn-lg rounded-pill" 
+       style="transition: all 0.3s;" 
+       onmouseover="this.style.transform='scale(1.1)'" 
+       onmouseout="this.style.transform='scale(1)'">
+       Get Started
+    </a>
+  </div>
+</section> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<router-outlet></router-outlet>
+
