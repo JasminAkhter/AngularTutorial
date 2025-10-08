@@ -1,0 +1,8 @@
+.btn-gradient {
+  background: linear-gradient(to right, #6fa8dc, #93d9f5);
+  border: none;
+}
+
+.btn-gradient:hover {
+  opacity: 0.9;
+}
