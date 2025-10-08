@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';          // <-- add this
-import { RouterModule } from '@angular/router';       // <-- add this
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,18 +15,15 @@ import { NavbarComponent } from './navbar/navbar.component';
     CustomerComponent,
     BankComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
-    FormsModule,       // <-- for ngForm, ngModel
-    RouterModule       // <-- for router-outlet and routerLink
+     // <-- RouterModule imported here only
   ],
-  providers: [
-    provideClientHydration()
-  ],
+  providers: [provideClientHydration()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
