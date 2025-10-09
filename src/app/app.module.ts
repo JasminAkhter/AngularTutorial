@@ -8,6 +8,8 @@ import { CustomerComponent } from './customer/customer.component';
 import { BankComponent } from './bank/bank.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { provideHttpClient } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -15,15 +17,16 @@ import { NavbarComponent } from './navbar/navbar.component';
     CustomerComponent,
     BankComponent,
     HomeComponent,
-    NavbarComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-     // <-- RouterModule imported here only
   ],
-  providers: [provideClientHydration()],
+  providers: [
+    provideHttpClient(),
+    provideClientHydration()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

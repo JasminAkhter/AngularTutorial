@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+ import { Component, OnInit } from '@angular/core';
+ //import { CustomerService, Customer } from '../services/customer.service';
 
 interface Customer {
   id: number;
@@ -19,10 +20,10 @@ export class CustomerComponent {
   nextId: number = 1;
   editingCustomer: Customer | null = null;
 
-  // Add or update customer
+  
   addCustomer(formValue: any) {
     if (this.editingCustomer) {
-      // update existing customer
+      
       this.editingCustomer.name = formValue.customerName;
       this.editingCustomer.email = formValue.email;
       this.editingCustomer.phone = formValue.phone;
@@ -30,7 +31,7 @@ export class CustomerComponent {
       this.editingCustomer.address = formValue.address;
       this.editingCustomer = null;
     } else {
-      // add new customer
+      
       this.customers.push({
         id: this.nextId++,
         name: formValue.customerName,
@@ -40,15 +41,19 @@ export class CustomerComponent {
         address: formValue.address
       });
     }
-    formValue.resetForm(); // reset form after submit
+    formValue.resetForm(); 
   }
 
-  // Edit customer
-  editCustomer(customer: Customer) {
-    this.editingCustomer = customer;
-  }
+  
+  // editCustomer(customer: Customer) {
+  //   this.editingCustomer = customer;
+  // }
 
-  // Delete customer
+  editCustomer(customer: any) {
+  console.log('Editing customer:', customer);
+}
+
+  
   deleteCustomer(id: number) {
     this.customers = this.customers.filter(c => c.id !== id);
     if (this.editingCustomer?.id === id) {
