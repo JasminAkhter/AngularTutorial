@@ -1,14 +1,5 @@
  import { Component, OnInit } from '@angular/core';
- //import { CustomerService, Customer } from '../services/customer.service';
-
-interface Customer {
-  id: number;
-  name: string;
-  email: string;
-  phone?: string;
-  gender?: string;
-  address?: string;
-}
+import { Customer } from '../models/customer';
 
 @Component({
   selector: 'app-customer',
