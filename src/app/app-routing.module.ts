@@ -8,8 +8,8 @@ const routes: Routes = [
   { path: 'customer', component: CustomerComponent },
   { path: 'bank', component: BankComponent },
   { path: 'home', component: HomeComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // default route
-  { path: '**', redirectTo: 'home' } // wildcard fallback
+  { path: '', redirectTo: 'home', pathMatch: 'full' }, 
+  { path: '**', redirectTo: 'home' } 
 ];
 
 @NgModule({
