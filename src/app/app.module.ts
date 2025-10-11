@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +12,7 @@ import { BankComponent } from './bank/bank.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { provideHttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -24,6 +27,8 @@ import { provideHttpClient } from '@angular/common/http';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule
   ],
   providers: [
     provideHttpClient(),

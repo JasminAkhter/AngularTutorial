@@ -1,55 +1,39 @@
  import { Component, OnInit } from '@angular/core';
 import { Customer } from '../models/customer';
+import { CustomerService } from '../services/customer.service';
+import { Route } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
-export class CustomerComponent {
+export class CustomerComponent implements OnInit {
+
+  constructor(private customerService: CustomerService, private snackBar: MatSnackBar) { }
+
   customers: Customer[] = [];
-  nextId: number = 1;
-  editingCustomer: Customer | null = null;
 
-  
-  addCustomer(formValue: any) {
-    if (this.editingCustomer) {
-      
-      this.editingCustomer.name = formValue.customerName;
-      this.editingCustomer.email = formValue.email;
-      this.editingCustomer.phone = formValue.phone;
-      this.editingCustomer.gender = formValue.gender;
-      this.editingCustomer.address = formValue.address;
-      this.editingCustomer = null;
-    } else {
-      
-      this.customers.push({
-        id: this.nextId++,
-        name: formValue.customerName,
-        email: formValue.email,
-        phone: formValue.phone,
-        gender: formValue.gender,
-        address: formValue.address
-      });
-    }
-    formValue.resetForm(); 
+  ngOnInit(): void {
+    this.getAll();
   }
 
-  
-  // editCustomer(customer: Customer) {
-  //   this.editingCustomer = customer;
-  // }
-
-  editCustomer(customer: any) {
-  console.log('Editing customer:', customer);
-}
-
-  
-  deleteCustomer(id: number) {
-    this.customers = this.customers.filter(c => c.id !== id);
-    if (this.editingCustomer?.id === id) {
-      this.editingCustomer = null;
-    }
+  getAll() {
+    this.customerService.getAll().subscribe(
+      (data: Customer[]) => {
+        this.customers = data;
+      },
+      (error) => {
+        this.snackBar.open('Error fetching customers!', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['error-snackbar']
+        });
+      }
+    );
   }
+  
 }
 
