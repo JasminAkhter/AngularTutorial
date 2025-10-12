@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Customer } from '../models/customer';
 
+// const apiUrl ='https://localhost:5183/api/Customer';
 const apiUrl = 'http://localhost:5183/api/Customer';
 
 @Injectable({
@@ -10,25 +11,29 @@ const apiUrl = 'http://localhost:5183/api/Customer';
 })
 export class CustomerService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getAll():Observable<Customer[]>{
-    return this.http.get<Customer[]>(apiUrl);
+//  getAll(): Observable<Customer[]> {
+//     return this.httpClient.get<Customer[]>(this.apiUrl);
+//   }
+
+  getAll(): Observable<Customer[]>{
+    return this.httpClient.get<Customer[]>(apiUrl);
   }
 
-  getById(id:number):Observable<Customer>{
-    return this.http.get<Customer>(`${apiUrl}/${id}`);
-  }
+//   create(data: Customer): Observable<Customer> {
+//   return this.httpClient.post<Customer>('http://localhost:5183/api/Customer/Create', data);
+// }
 
-  create(customer:Customer):Observable<Customer>{
-    return this.http.post<Customer>(apiUrl, customer);
-  }
-
-  update(id:number, customer:Customer):Observable<Customer>{
-    return this.http.put<Customer>(`${apiUrl}/${id}`, customer);
-  }
-
-  delete(id:number):Observable<void>{
-    return this.http.delete<void>(`${apiUrl}/${id}`);
-  }
+create(data: Customer): Observable<Customer> {
+  return this.httpClient.post<Customer>(apiUrl + '/Create', data);
 }
+
+
+
+    update(id: string, data: Customer): Observable<Customer> {
+        return this.httpClient.put<Customer>(apiUrl + '/Update/' + id, data);
+      }
+}
+
+

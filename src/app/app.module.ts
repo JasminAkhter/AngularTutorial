@@ -14,6 +14,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { provideHttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { importProvidersFrom } from '@angular/core';
+
+
+
 
 @NgModule({
   declarations: [
