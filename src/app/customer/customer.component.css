@@ -20,7 +20,7 @@
   background: linear-gradient(to right, #93d9f5, #6fa8dc);
 }
 
-/* Table Styling */
+
 .table-hover tbody tr:hover {
   background-color: #e1f0ff;
 }
@@ -32,3 +32,24 @@
 .form-floating > label {
   font-weight: 500;
 }
+
+.custom-snack {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  max-width: 560px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+  text-align: center;
+}
+
+/* variants */
+.snack-success { background: linear-gradient(90deg,#2e7d32,#43a047); }
+.snack-error   { background: linear-gradient(90deg,#c62828,#ef5350); }
+.snack-warning { background: linear-gradient(90deg,#f57c00,#ffb300); }
+.snack-info    { background: linear-gradient(90deg,#1565c0,#42a5f5); }
+
