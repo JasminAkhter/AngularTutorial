@@ -1,3 +1,9 @@
+.is-invalid {
+  border: 2px solid red !important;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.2);
+}
+
+
 /* Gradient Buttons */
 .btn-gradient {
   background: linear-gradient(to right, #6fa8dc, #93d9f5);

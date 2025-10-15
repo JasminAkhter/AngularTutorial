@@ -17,23 +17,40 @@
               </div>
 
               <div class="row mb-3 align-items-center">
-                <label for="customerName" class="col-sm-4 col-form-label fw-semibold text-end">Full Name :<span
-                    class="text-danger">*</span></label>
+                <label for="customerName" class="col-sm-4 col-form-label fw-semibold text-end">Full Name :
+                  <span class="text-danger">*</span></label>
                 <div class="col-sm-8">
                   <input type="text" id="customerName" name="customerName" class="form-control shadow-sm"
-                    placeholder="Enter full name" required [(ngModel)]="customerData.name">
+                    placeholder="Enter full name" required [(ngModel)]="customerData.name" #name="ngModel"
+                    [ngClass]="{'is-invalid': customerForm.submitted && name.invalid}">
+                  <div *ngIf="customerForm.submitted && name.invalid" class="text-danger small mt-1">
+                    Full name is required.
+                  </div>
                 </div>
               </div>
 
-
               <div class="row mb-3 align-items-center">
+                <label for="email" class="col-sm-4 col-form-label fw-semibold text-end">
+                  Email :<span class="text-danger">*</span>
+                </label>
+                <div class="col-sm-8">
+                  <input type="email" id="email" name="email" class="form-control shadow-sm" placeholder="Enter email"
+                    required email [(ngModel)]="customerData.email" #emailField="ngModel"
+                    [ngClass]="{'is-invalid': customerForm.submitted && emailField.invalid}">
+                  <div *ngIf="customerForm.submitted && emailField.invalid" class="text-danger small mt-1">
+                    Valid email is required.
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="row mb-3 align-items-center">
                 <label for="email" class="col-sm-4 col-form-label fw-semibold text-end">Email :<span
                     class="text-danger">*</span></label>
                 <div class="col-sm-8">
                   <input type="email" id="email" name="email" class="form-control shadow-sm" placeholder="Enter email"
                     required [(ngModel)]="customerData.email">
                 </div>
-              </div>
+              </div> -->
 
 
               <div class="row mb-3 align-items-center">
@@ -73,7 +90,7 @@
                 <div class="col-12 text-center">
                   <button type="submit" class="btn text-white py-2 px-5 fw-semibold"
                     style="background: #74c0fc; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
-                    {{ isEditMode ? 'Update' : 'Save' }}
+                    <span>{{ isEditMode ? 'Update' : 'Save' }}</span>
                   </button>
                 </div>
               </div>
@@ -120,14 +137,8 @@
                       <button class="btn btn-sm btn-danger" (click)="deleteCustomer(customer.id)" title="Delete">
                         <i class="bi bi-trash"></i>
                       </button>
-                      <!-- <button class="btn btn-sm btn-info me-2" (click)="editCustomer(customer)" title="Edit">
-                        <i class="bi bi-pencil-square"></i>
-                      </button>-->
-
                     </td>
                   </tr>
-
-                  
                 </tbody>
               </table>
             </div>

@@ -66,11 +66,22 @@ export class CustomerComponent implements OnInit, OnDestroy {
   }
 
 
-  reset(): void {
+  // reset(): void {
+  //   this.customerData = { id: 0, name: '', email: '', phone: '', gender: '', address: '' };
+  //   this.isEditMode = false;
+  //   this.getAll();
+  // }
+
+  reset(form?: NgForm): void {
+    if (form) {
+      form.resetForm(); // ✅ resets the form UI and validation state
+    }
+
     this.customerData = { id: 0, name: '', email: '', phone: '', gender: '', address: '' };
     this.isEditMode = false;
-    this.getAll();
+    this.editingCustomerId = undefined;
   }
+
 
 
   isEditMode = false;
@@ -86,58 +97,52 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
 
   saveCustomer(customerForm: NgForm): void {
-  if (!customerForm.valid) {
-    this.snackBar.open('Please fill all required fields!', 'Close', {
-      duration: 3000,
-      panelClass: ['snackbar-error']
-    });
-    return;
-  }
-
-  if (this.isEditMode && this.editingCustomerId != null) {
-    // 🔹 UPDATE EXISTING CUSTOMER
-    this.customerService.update(this.editingCustomerId, this.customerData)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (res) => {
-          this.reset(); // ✅ pass the form to reset UI + data
-          this.snackBar.open(res.Message || 'Customer updated successfully!', 'Close', {
-            duration: 3000,
-            panelClass: ['snackbar-success']
-          });
-        },
-        error: (err) => {
-          console.error(err);
-          this.snackBar.open('Error updating customer!', 'Close', {
-            duration: 3000,
-            panelClass: ['snackbar-error']
-          });
-        }
+    if (!customerForm.valid) {
+      this.snackBar.open('Please fill all required fields!', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-error']
       });
+      return;
+    }
 
-  } else {
-    // 🔹 CREATE NEW CUSTOMER
-    this.customerService.create(this.customerData)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (data) => {
-          this.customers.unshift(data);
-          this.reset(); // ✅ pass the form here too
-          this.snackBar.open('Customer added successfully!', 'Close', {
-            duration: 3000,
-            panelClass: ['snackbar-success']
-          });
-        },
-        error: (err) => {
-          console.error(err);
-          this.snackBar.open('Error adding customer!', 'Close', {
-            duration: 3000,
-            panelClass: ['snackbar-error']
-          });
-        }
-      });
+    if (this.isEditMode && this.editingCustomerId != null) {
+      // 🔹 UPDATE EXISTING CUSTOMER
+      this.customerService.update(this.editingCustomerId, this.customerData)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (res) => {
+            
+            this.reset(customerForm); // ✅ pass the form to reset UI + data
+            this.snackBar.open(res.Message || 'Customer updated successfully!', 'Close', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
+            });
+          },
+          error: (err) => {
+            console.error(err);
+            
+          }
+        });
+
+    } else {
+      // 🔹 CREATE NEW CUSTOMER
+      this.customerService.create(this.customerData)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe({
+          next: (data) => {
+            this.customers.push(data);
+            this.reset(customerForm); // ✅ pass the form here too
+            this.snackBar.open('Customer added successfully!', 'Close', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
+            });
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        });
+    }
   }
-}
 
 
 
