@@ -9,7 +9,7 @@
             <h4 class="mb-0 text-white fw-bold">Customer Form</h4>
           </div>
           <div class="card-body p-4">
-            <form #customerForm="ngForm" (ngSubmit)="create(customerForm)">
+            <form #customerForm="ngForm" (ngSubmit)="saveCustomer(customerForm)">
               <div class="row mb-3 align-items-center">
                 <div class="col-sm-8">
                   <input type="hidden" id="id" name="id" class="form-control shadow-sm">
@@ -73,7 +73,7 @@
                 <div class="col-12 text-center">
                   <button type="submit" class="btn text-white py-2 px-5 fw-semibold"
                     style="background: #74c0fc; box-shadow: 0 4px 8px rgba(0,0,0,0.05);">
-                    {{ isEditMode ? 'Update Customer' : 'Add Customer' }}
+                    {{ isEditMode ? 'Update' : 'Save' }}
                   </button>
                 </div>
               </div>
@@ -127,9 +127,7 @@
                     </td>
                   </tr>
 
-                  <!-- <tr>
-                    <td colspan="7" class="text-muted py-3">No customers added yet</td>
-                  </tr> -->
+                  
                 </tbody>
               </table>
             </div>
