@@ -15,12 +15,13 @@ export class BankComponent implements OnInit, OnDestroy {
 
   banks: Bank[] = [];
   displayedColumns: string[] = ['bankID', 'bankName', 'accountNumber', 'bankAddress', 'actions'];
-  
+
   bankData: Bank = {
     bankID: 0,
     bankName: '',
     accountNumber: '',
     accountType: '',
+    openingDate: '',
     bankAddress: ''
   };
 
@@ -28,7 +29,7 @@ export class BankComponent implements OnInit, OnDestroy {
   isEditMode = false;
   editingBankId?: number;
 
-  constructor(private bankService: BankService, private snackBar: MatSnackBar) {}
+  constructor(private bankService: BankService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.loadBanks();
@@ -63,7 +64,7 @@ export class BankComponent implements OnInit, OnDestroy {
     console.log('Editing bank:', this.bankData);
   }
 
-  saveBank(bankForm: NgForm): void { 
+  saveBank(bankForm: NgForm): void {
     if (!bankForm.valid) {
       this.snackBar.open('Please fill all required fields!', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
       return;
@@ -87,7 +88,7 @@ export class BankComponent implements OnInit, OnDestroy {
           next: (data) => {
             this.banks.push(data);
             this.reset(bankForm);
-            this.snackBar.open('Bank added successfully!', 'Close', { duration: 3000, panelClass: ['snackbar-success'] });
+            this.snackBar.open('Data added successfully!', 'Close', { duration: 3000, panelClass: ['snackbar-success'] });
           },
           error: (err) => console.error(err)
         });
@@ -96,15 +97,30 @@ export class BankComponent implements OnInit, OnDestroy {
 
   deleteBank(id?: number): void {
     if (id == null) return;
-    if (!confirm('Are you sure you want to delete this bank?')) return;
+
+    if (!confirm('Are you sure you want to delete this data?')) return;
 
     this.bankService.delete(id)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
-        next: () => this.banks = this.banks.filter(b => b.bankID !== id),
-        error: (err) => console.error(err)
+        next: (res) => {
+          
+          this.banks = this.banks.filter(b => b.bankID !== id);
+          this.snackBar.open(res?.Message ?? 'Data deleted successfully!', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-success']
+          });
+        },
+        error: (err) => {
+          console.error('Error deleting bank:', err);
+          this.snackBar.open('Error deleting bank!', 'Close', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
+        }
       });
   }
 
-  
+
+
 }

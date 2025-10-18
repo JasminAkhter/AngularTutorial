@@ -18,18 +18,10 @@ export class CustomerService {
     return this.httpClient.get<Customer[]>(apiUrl);
   }
 
-  //   create(data: Customer): Observable<Customer> {
-  //   return this.httpClient.post<Customer>('http://localhost:5183/api/Customer/Create', data);
-  // }
 
   create(data: Customer): Observable<Customer> {
     return this.httpClient.post<Customer>(apiUrl + '/Create', data);
   }
-
-
-  // update(id: number, data: Customer): Observable<any> {
-  //   return this.httpClient.put<a>(apiUrl + '/Update/' + id, data);
-  // }
 
   update(id: number, data: Customer): Observable<any> {
     return this.httpClient.put<any>(`${apiUrl}/${id}`, data);
@@ -38,7 +30,6 @@ export class CustomerService {
   delete(id: number): Observable<any> {
     return this.httpClient.delete<any>(`${apiUrl}/${id}`);
   }
-
 
 }
 
