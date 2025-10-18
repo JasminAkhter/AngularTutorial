@@ -65,16 +65,14 @@ export class CustomerComponent implements OnInit, OnDestroy {
       });
   }
 
-
   reset(form?: NgForm): void {
     if (form) {
-      form.resetForm(); // ✅ resets the form UI and validation state
+      form.resetForm();  // resets the form UI and validation state
     }
 
-    // this.customerData = { id: 0, name: '', email: '', phone: '', gender: '', address: '' };
+    this.customerData = { id: 0, name: '', email: '', phone: '', gender: '', address: '' };
     this.isEditMode = false;
     this.editingCustomerId = undefined;
-    this.getAll();
   }
 
 
@@ -115,6 +113,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             console.error(err);
+            
           }
         });
 

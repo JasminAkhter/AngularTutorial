@@ -45,10 +45,6 @@
 </section>
 
 
-
-
-
-
 <!-- Modal -->
 <div class="modal fade" id="bankModal" tabindex="-1" aria-labelledby="bankModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -58,24 +54,28 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" style="background: #fdfdff;">
-        <form #bankForm="ngForm" (ngSubmit)="saveBankInfo(bankForm)">
-          <!-- Your existing form fields go here -->
+
+        <!-- <form #bankForm="ngForm" (ngSubmit)="saveBankInfo(bankForm)"> -->
+          <form #bankForm="ngForm" (ngSubmit)="saveBank(bankForm)"> <!--Ekhane bankForm-->
+
+
           <div class="mb-3 row align-items-center">
-            <label for="bankName" class="col-md-4 col-form-label text-end">Bank Name : <span
-                class="text-danger">*</span></label>
+            <label for="bankName" class="col-md-4 col-form-label text-end">Bank Name :
+              <span class="text-danger">*</span></label>
             <div class="col-md-8">
-              <input type="text" class="form-control" id="bankName" placeholder="Enter bank name" required
-                style="background-color: #f3f6fb;">
+              <input type="text" id="bankName" name="bankName" class="form-control" placeholder="Enter bank name"
+                required [(ngModel)]="bankData.bankName" #bankName="ngModel"
+                [ngClass]="{'is-invalid': bankForm.submitted && bankName.invalid }" style="background-color: #f3f6fb;">
             </div>
           </div>
 
-          
-
           <div class="mb-3 row align-items-center">
-            <label for="accountNumber" class="col-md-4 col-form-label text-end">Account Number : <span
-                class="text-danger">*</span></label>
+            <label for="accountNumber" class="col-md-4 col-form-label text-end">Account Number :
+              <span class="text-danger">*</span></label>
             <div class="col-md-8">
-              <input type="text" class="form-control" id="accountNumber" placeholder="Enter account number" required
+              <input type="text" id="accountNumber" name="accountNumber" class="form-control"
+                placeholder="Enter account number" required [(ngModel)]="bankData.accountNumber"
+                #accountNumber="ngModel" [ngClass]="{'is-invalid': bankForm.submitted && accountNumber.invalid}"
                 style="background-color: #f3f6fb;">
             </div>
           </div>
@@ -83,7 +83,8 @@
           <div class="mb-3 row align-items-center">
             <label for="accountType" class="col-md-4 col-form-label text-end">Account Type :</label>
             <div class="col-md-8">
-              <select class="form-select" id="accountType" style="background-color: #f3f6fb;">
+              <select class="form-select" id="accountType" name="accountType" [(ngModel)]="bankData.accountType"
+                style="background-color: #f3f6fb;">
                 <option selected disabled>Select account type</option>
                 <option value="savings">Savings</option>
                 <option value="current">Current</option>
@@ -95,7 +96,8 @@
           <div class="mb-4 row align-items-center">
             <label for="bankAddress" class="col-md-4 col-form-label text-end">Bank Address :</label>
             <div class="col-md-8">
-              <textarea class="form-control" id="bankAddress" rows="3" placeholder="Enter bank address"
+              <textarea class="form-control" id="bankAddress" name="bankAddress" rows="3"
+                placeholder="Enter bank address" [(ngModel)]="bankData.bankAddress"
                 style="background-color: #f3f6fb;"></textarea>
             </div>
           </div>
@@ -110,6 +112,7 @@
           </div>
 
         </form>
+
       </div>
     </div>
   </div>
