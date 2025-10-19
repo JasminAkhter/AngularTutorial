@@ -69,7 +69,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
     if (form) {
       form.resetForm();  // resets the form UI and validation state
     }
-
     this.customerData = { id: 0, name: '', email: '', phone: '', gender: '', address: '' };
     this.isEditMode = false;
     this.editingCustomerId = undefined;

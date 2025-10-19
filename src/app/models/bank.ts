@@ -3,7 +3,7 @@ export interface Bank {
     bankName: string;
     accountNumber: string;
     accountType?: string;
-     openingDate?: string;
+    openingDate?: string;
     bankAddress?: string;
 }
 
