@@ -1,0 +1,63 @@
+/* Pagination Buttons - Default */
+.pagination .page-item .page-link {
+  background-color: #f1f5ff !important;
+  color: #4a4a4a !important;
+  border: none !important;
+  border-radius: 10px !important;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.pagination .page-item .page-link:hover {
+  background: linear-gradient(to right, #a3c4f3, #cdb4db) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(163, 196, 243, 0.6);
+}
+
+/* Active Page */
+.pagination .page-item.active .page-link {
+  background: linear-gradient(to right, #a3c4f3, #cdb4db) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(163, 196, 243, 0.7);
+}
+
+/* Disabled Buttons */
+.pagination .page-item.disabled .page-link {
+  background-color: #e9edf7 !important;
+  color: #9aa0b5 !important;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
+/* Icon Styling */
+.page-link:hover {
+  background: linear-gradient(to right, #b5c7f2, #d6b8e6) !important;
+  color: #fff !important;
+  transition: 0.3s ease-in-out;
+}
+
+.btn-gradient {
+  background: linear-gradient(to right, #6fa8dc, #9b59b6);
+  color: white;
+  border: none;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(to right, #5a8fd1, #884ea0);
+  color: #fff;
+  transform: scale(1.05);
+  transition: 0.2s ease-in-out;
+}
+
+input:focus {
+  box-shadow: 0 0 5px rgba(155, 89, 182, 0.4);
+  outline: none;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #e4ebfa !important;
+  transition: background 0.3s ease-in-out;
+}
+
+

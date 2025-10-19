@@ -1,3 +1,5 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
 <section class="py-5 bg-light">
   <div class="container">
     <div class="card shadow-sm rounded-4">
@@ -13,10 +15,23 @@
 
       <div class="card-body" style="background-color: #fdfdff;">
         <div class="table-responsive">
+          <!-- 🔍 Search Bar -->
+          <div class="d-flex justify-content-end mb-3">
+            <div class="input-group" style="max-width: 350px;">
+              <input type="text" class="form-control shadow-sm" placeholder="Search banks..." [(ngModel)]="searchTerm"
+                (input)="filterBanks()"
+                style="border-radius: 30px 0 0 30px; background-color: #f3f6fb; border: none; padding-left: 15px;">
+              <button class="btn btn-gradient shadow-sm px-4" type="button"
+                style="border-radius: 0 30px 30px 0; border: none;">
+                <i class="bi bi-search-heart-fill"></i>
+              </button>
+            </div>
+          </div>
+
           <table class="table table-bordered table-hover" style="background-color: #f3f6fb;">
             <thead style="background: linear-gradient(to right, #a3c4f3, #cdb4db); color: white;">
               <tr>
-                <th>ID</th>
+                <!-- <th>ID</th> -->
                 <th>Bank Name</th>
                 <th>Account Number</th>
                 <th>Account Type</th>
@@ -26,15 +41,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let bank of banks;" class="align-middle shadow-sm" style="background-color: #eaf0fb;">
-                <td>{{bank.bankID}}</td>
+              <tr *ngFor="let bank of displayedBanks;" class="align-middle shadow-sm"
+                style="background-color: #eaf0fb;">
+                <!-- <td>{{bank.bankID}}</td> -->
                 <td>{{bank.bankName}}</td>
                 <td>{{bank.accountNumber}}</td>
                 <td>{{bank.accountType}}</td>
                 <!-- <td>{{bank.openingDate}}</td> -->
                 <td>{{bank.bankAddress}}</td>
                 <td>
-                  <button class="btn btn-sm btn-outline-info me-2" (click)="editBank(bank)">Edit</button> 
+                  <button class="btn btn-sm btn-outline-info me-2" (click)="editBank(bank)">Edit</button>
                   <button class="btn btn-sm btn-outline-danger" (click)="deleteBank(bank.bankID)">
                     Delete
                   </button>
@@ -42,6 +58,63 @@
               </tr>
             </tbody>
           </table>
+
+          <nav aria-label="Bank table pagination">
+            <ul class="pagination justify-content-center mt-4">
+
+              <!-- First Page -->
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link border-0 shadow-sm fw-bold text-primary"
+                  style="background: #f1f5ff; border-radius: 10px;" (click)="goToPage(1)"
+                  [disabled]="currentPage === 1">
+                  <i class="bi bi-skip-backward-fill"></i>
+                </button>
+              </li>
+
+              <!-- Previous -->
+              <li class="page-item mx-1" [class.disabled]="currentPage === 1">
+                <button class="page-link border-0 shadow-sm fw-bold text-primary"
+                  style="background: #f1f5ff; border-radius: 10px;" (click)="prevPage()" [disabled]="currentPage === 1">
+                  <i class="bi bi-chevron-left"></i>
+                </button>
+              </li>
+
+              <!-- Page Numbers -->
+              <ng-container *ngIf="pageNumbers.length">
+                <li class="page-item mx-1" *ngFor="let page of pageNumbers" [class.active]="currentPage === page">
+                  <button class="page-link border-0 fw-semibold" [ngStyle]="{
+                  'background': currentPage === page ? 'linear-gradient(to right, #a3c4f3, #cdb4db)' : '#ffffff',
+                  'color': currentPage === page ? '#fff' : '#333',
+                  'border-radius': '10px',
+                  'box-shadow': currentPage === page ? '0 0 10px rgba(163,196,243,0.6)' : '0 1px 3px rgba(0,0,0,0.1)'
+                }" (click)="goToPage(page)">
+                    {{ page }}
+                  </button>
+                </li>
+              </ng-container>
+
+              <!-- Next -->
+              <li class="page-item mx-1" [class.disabled]="currentPage === totalPages">
+                <button class="page-link border-0 shadow-sm fw-bold text-primary"
+                  style="background: #f1f5ff; border-radius: 10px;" (click)="nextPage()"
+                  [disabled]="currentPage === totalPages">
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </li>
+
+              <!-- Last Page -->
+              <li class="page-item" [class.disabled]="currentPage === totalPages">
+                <button class="page-link border-0 shadow-sm fw-bold text-primary"
+                  style="background: #f1f5ff; border-radius: 10px;" (click)="goToPage(totalPages)"
+                  [disabled]="currentPage === totalPages">
+                  <i class="bi bi-skip-forward-fill"></i>
+                </button>
+              </li>
+
+            </ul>
+          </nav>
+
+
         </div>
       </div>
     </div>
@@ -60,7 +133,7 @@
       <div class="modal-body" style="background: #fdfdff;">
 
         <!-- <form #bankForm="ngForm" (ngSubmit)="saveBankInfo(bankForm)"> -->
-        <form #bankForm="ngForm" (ngSubmit)="saveBank(bankForm)"> 
+        <form #bankForm="ngForm" (ngSubmit)="saveBank(bankForm)">
 
 
           <div class="mb-3 row align-items-center">
@@ -123,14 +196,9 @@
               </button>
             </div>
           </div>
-          
+
         </form>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-
