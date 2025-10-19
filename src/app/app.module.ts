@@ -15,7 +15,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { importProvidersFrom } from '@angular/core';
-
+import {MatTableModule} from '@angular/material/table';
 
 
 
@@ -30,6 +30,7 @@ import { importProvidersFrom } from '@angular/core';
   imports: [
     BrowserModule,
     FormsModule,
+    MatTableModule,
     AppRoutingModule,
     MatSnackBarModule,
     BrowserAnimationsModule

@@ -36,7 +36,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
     'phone',
     'gender',
     'address',
-    'action'
+    'actions'
   ];
 
 

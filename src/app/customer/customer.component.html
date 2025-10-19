@@ -99,7 +99,63 @@
 
           <div class="card-body p-0">
             <div class="table-responsive">
-              <table class="table table-hover align-middle text-center mb-0"
+              <table mat-table [dataSource]="customers" class="mat-elevation-z8"> <!-- customers comes from customer.component.ts files array -->
+                <!-- ID Column -->
+                <ng-container matColumnDef="id"> <!-- id comes from customer.component.ts => displayedColumns -->
+                  <th mat-header-cell *matHeaderCellDef> ID </th>
+                  <td mat-cell *matCellDef="let customer; let i = index"> {{i + 1}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name"> <!-- name comes from customer.component.ts => displayedColumns -->
+                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                  <td mat-cell *matCellDef="let customer"> {{customer.name}} </td> <!-- customer.name comes from models/customer.ts properties -->
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef> Email </th>
+                  <td mat-cell *matCellDef="let customer"> {{customer.email}} </td>
+                </ng-container>
+
+                <!-- Phone Column -->
+                <ng-container matColumnDef="phone">
+                  <th mat-header-cell *matHeaderCellDef> Phone </th>
+                  <td mat-cell *matCellDef="let customer"> {{customer.phone}} </td>
+                </ng-container>
+
+                <!-- Gender Column -->
+                <ng-container matColumnDef="gender">
+                  <th mat-header-cell *matHeaderCellDef> Gender </th>
+                  <td mat-cell *matCellDef="let customer"> {{customer.gender}} </td>
+                </ng-container>
+
+                <!-- Address Column -->
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef> Address </th>
+                  <td mat-cell *matCellDef="let customer"> {{customer.address}} </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef> Actions </th>
+                  <td mat-cell *matCellDef="let customer">
+                    <button class="btn btn-info btn-sm me-1" (click)="editCustomer(customer)" title="Edit">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteCustomer(customer.id)" title="Delete">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+
+
+              <!-- <table class="table table-hover align-middle text-center mb-0"
                 style="border-collapse: separate; border-spacing: 0 0.5rem;">
                 <thead style="background: #a5d8ff; color: #1c1c1c;" class="text-uppercase">
                   <tr>
@@ -131,7 +187,7 @@
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </table> -->
             </div>
           </div>
         </div>
