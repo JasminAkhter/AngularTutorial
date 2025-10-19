@@ -24,11 +24,13 @@ export class BankComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['bankID', 'bankName', 'accountNumber', 'bankAddress', 'openingDate', 'actions'];
 
   //add for paginetion
-  currentPage = 1;
-  pageSize = 5;
-  totalPages = 1;
-  displayedBanks: Bank[] = []; // subset of banks for current page
-
+  pageSize: number = 10;
+  currentPage: number = 1;
+  totalPages: number = 1;
+  searchTerm: string = '';
+  displayedBanks: Bank[] = [];
+  filteredBanks: Bank[] = [];
+  pageNumbers: number[] = [];
 
 
 
@@ -46,9 +48,6 @@ export class BankComponent implements OnInit, OnDestroy {
   editingBankId?: number;
 
 
-  searchTerm: string = '';
-  filteredBanks: Bank[] = [];
-
   ngOnInit(): void {
     this.loadBanks();
   }
@@ -62,14 +61,14 @@ export class BankComponent implements OnInit, OnDestroy {
     this.bankService.getAll().subscribe({
       next: (data: Bank[]) => {
         this.banks = data || [];
-        this.filteredBanks = [...this.banks]; // ✅ initialize filtered list
+        this.filteredBanks = [...this.banks];
         this.resetPagination();
         this.updateDisplayedBanks();
       },
       error: (err) => {
         console.error('Error loading banks:', err);
         this.banks = [];
-        this.filteredBanks = []; // ✅ keep it safe and empty
+        this.filteredBanks = [];
         this.resetPagination();
         this.updateDisplayedBanks();
       }
@@ -78,41 +77,14 @@ export class BankComponent implements OnInit, OnDestroy {
 
   filterBanks(): void {
     const term = this.searchTerm.toLowerCase();
-    this.filteredBanks = this.banks.filter(bank =>
-      bank.bankName?.toLowerCase().includes(term) ||
-      bank.accountNumber?.toLowerCase().includes(term) ||
-      bank.accountType?.toLowerCase().includes(term)
+    this.filteredBanks = this.banks.filter(b =>
+      b.bankName.toLowerCase().includes(term) ||
+      b.accountNumber.toLowerCase().includes(term) ||
+      (b.accountType && b.accountType.toLowerCase().includes(term)) ||
+      (b.bankAddress && b.bankAddress.toLowerCase().includes(term))
     );
+    this.resetPagination();
   }
-
-
-  // loadBanks(): void {
-  //   this.bankService.getAll()
-  //     .pipe(takeUntil(this.unsubscribe$))
-  //     .subscribe({
-  //       next: (data: Bank[]) => this.banks = data,
-  //       error: (err) => console.error('Error fetching banks:', err)
-  //     });
-  // }
-
-
-  //Added for pegination
-  // loadBanks(): void {
-  //   this.bankService.getAll().subscribe({
-  //     next: (data: Bank[]) => {
-  //       this.banks = data || [];
-  //       this.resetPagination();
-  //       this.updateDisplayedBanks();
-  //     },
-  //     error: (err) => {
-  //       console.error('Error loading banks:', err);
-  //       this.banks = [];
-  //       this.resetPagination();
-  //       this.updateDisplayedBanks();
-  //     }
-  //   });
-  // }
-
 
   trackByBankId(index: number, bank: Bank) {
     return bank.bankID;
@@ -121,40 +93,27 @@ export class BankComponent implements OnInit, OnDestroy {
 
   private resetPagination(): void {
     this.currentPage = 1;
-    this.totalPages = Math.max(1, Math.ceil(this.banks.length / this.pageSize));
+    this.totalPages = Math.max(1, Math.ceil(this.filteredBanks.length / this.pageSize));
+    this.pageNumbers = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    this.updateDisplayedBanks();
   }
 
   updateDisplayedBanks(): void {
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
-    // Defensive guards
     const s = Math.max(0, Math.min(start, this.banks.length));
     const e = Math.max(s, Math.min(end, this.banks.length));
     this.displayedBanks = this.banks.slice(s, e);
   }
 
-  get pageNumbers(): number[] {
-    const pages: number[] = [];
-    const maxVisible = 5;
-    this.totalPages = Math.max(1, Math.ceil(this.banks.length / this.pageSize));
-    let start = Math.max(this.currentPage - Math.floor(maxVisible / 2), 1);
-    let end = Math.min(start + maxVisible - 1, this.totalPages);
 
-    if (end - start < maxVisible - 1) {
-      start = Math.max(end - maxVisible + 1, 1);
-    }
 
-    for (let i = start; i <= end; i++) pages.push(i);
-    return pages;
-  }
-
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages) return;
+  goToPage(page: number) {
     this.currentPage = page;
     this.updateDisplayedBanks();
   }
 
-  prevPage(): void {
+  prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
       this.updateDisplayedBanks();
