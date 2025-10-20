@@ -1,9 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Customer } from '../models/customer';
 import { CustomerService } from '../services/customer.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { response } from 'express';
+import { error } from 'console';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 
 
@@ -12,11 +16,16 @@ import { NgForm } from '@angular/forms';
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css']
 })
-export class CustomerComponent implements OnInit, OnDestroy {
+export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private customerService: CustomerService, private snackBar: MatSnackBar) { }
 
   customers: Customer[] = [];
+  nextCursor?: number;  // 🔹 store the cursor for next page
+
+  ngAfterViewInit() {
+    
+  }
 
   private unsubscribe$ = new Subject<void>();
 
@@ -39,31 +48,92 @@ export class CustomerComponent implements OnInit, OnDestroy {
     'actions'
   ];
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource = new MatTableDataSource<Customer>();
+
+  totalRecords = 0;
+  pageSize = 5;
+  pageIndex = 0;
+  searchText = '';
+  isLoading = false;
 
   ngOnInit(): void {
-    this.getAll();
+    this.loadCustomers();
   }
+
+  isEditMode = false;
+  editingCustomerId?: number;
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
-  getAll() {
-    this.customerService.getAll()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe({
-        next: (data: Customer[]) => this.customers = data,
-        error: (error) => {
-          this.snackBar.open('Error fetching customers!', 'Close', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-            panelClass: ['error-snackbar']
-          });
-        }
-      });
+  // loadCustomers(): void {
+  //   this.isLoading = true;
+  //   const pageNumber = this.pageIndex + 1;  // Convert to 1-based for API
+
+  //   this.customerService.getAll(this.pageIndex, this.pageSize, this.searchText)
+  //     .pipe(takeUntil(this.unsubscribe$))
+  //     .subscribe({
+  //       next: (res: any) => {
+  //       this.dataSource.data = res.data || res.Data || [];
+  //       this.totalRecords = res.totalCount || res.TotalCount || 0;
+  //       this.isLoading = false;
+  //     },
+  //       error: (err) => {
+  //          console.error('Error loading customers:', err);
+  //          this.isLoading = false;
+  //       }
+  //     });
+  // }
+
+  loadCustomers(): void {
+  this.isLoading = true;
+  const pageNumber = this.pageIndex + 1;
+  
+  console.log('Loading page:', pageNumber, 'PageIndex:', this.pageIndex); // 🔍 Debug
+  
+  this.customerService.getAll(pageNumber, this.pageSize, this.searchText)
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe({
+      next: (res: any) => {
+        console.log('API Response:', res); // 🔍 Debug
+        this.dataSource.data = res.data || res.Data || [];
+        this.totalRecords = res.totalCount || res.TotalCount || 0;
+        console.log('Total Records:', this.totalRecords); // 🔍 Debug
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading customers:', err);
+        this.isLoading = false;
+      }
+    });
+}
+
+  //Pagination event
+ onPageChange(event: PageEvent): void {
+  console.log('Page changed:', event); // 🔍 Debug
+  console.log('Page index:', event.pageIndex); // 🔍 Debug
+  console.log('Page size:', event.pageSize); // 🔍 Debug
+  
+  this.pageIndex = event.pageIndex;
+  this.pageSize = event.pageSize;
+  this.loadCustomers();
+}
+
+  //Search filter (server-side)
+  applyFilter(event: Event): void {
+  const input = (event.target as HTMLInputElement).value;
+  this.searchText = input.trim().toLowerCase();
+  this.pageIndex = 0;
+  
+  if (this.paginator) {
+    this.paginator.firstPage();
   }
+  
+  this.loadCustomers();
+}
 
   reset(form?: NgForm): void {
     if (form) {
@@ -76,8 +146,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
 
 
-  isEditMode = false;
-  editingCustomerId?: number;
+
 
   editCustomer(customer: Customer): void {
     this.isEditMode = true;
@@ -103,7 +172,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            
+
             this.reset(customerForm); // ✅ pass the form to reset UI + data
             this.snackBar.open(res.Message || 'Customer updated successfully!', 'Close', {
               duration: 3000,
@@ -112,7 +181,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
           },
           error: (err) => {
             console.error(err);
-            
           }
         });
 
@@ -128,10 +196,11 @@ export class CustomerComponent implements OnInit, OnDestroy {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
+            this.reset(customerForm);
+            this.loadCustomers();
           },
-          error: (err) => {
-            console.error(err);
-          }
+
+          error: (err) => console.error
         });
     }
   }
@@ -159,6 +228,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
             duration: 3000,
             panelClass: ['snackbar-success']
           });
+
         },
         error: (err) => {
           console.error('Delete API Error:', err);

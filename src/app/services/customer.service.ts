@@ -14,9 +14,18 @@ export class CustomerService {
   constructor(private httpClient: HttpClient) { }
 
 
-  getAll(): Observable<Customer[]> {
-    return this.httpClient.get<Customer[]>(apiUrl);
+  // getAll(pageSize: number = 5, lastId?: number): Observable<any> {
+  //   const params: any = { pageSize };
+  //   if (lastId !== undefined) params.lastId = lastId;
+
+  //   return this.httpClient.get<any>(apiUrl, { params });
+  // }
+
+  getAll(pageNumber: number = 1, pageSize: number = 5, search: string = ''): Observable<any>{
+    const params: any = {pageNumber, pageSize};
+    return this. httpClient.get(apiUrl, { params });
   }
+
 
 
   create(data: Customer): Observable<Customer> {
