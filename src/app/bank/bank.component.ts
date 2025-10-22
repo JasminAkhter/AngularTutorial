@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, inject } from '@angular/core';
 import { BankService } from '../services/bank.service';
 import { Bank } from '../models/bank';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Branch } from '../models/branch';
+import { MatDialog } from '@angular/material/dialog';
 
 
 declare var bootstrap: any;
@@ -261,5 +262,11 @@ export class BankComponent implements OnInit, OnDestroy {
   }
 
 
+  // readonly dialog = inject(MatDialog);
+  // openDialog() {
+  //   this.dialog.open(this.dialogTemplate);
+  // }
+  // dialogTemplate: any;
+  
 
 }

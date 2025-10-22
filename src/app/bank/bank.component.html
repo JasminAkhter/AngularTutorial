@@ -11,6 +11,7 @@
           data-bs-toggle="modal" data-bs-target="#bankModal">
           + Add New
         </button>
+        <!-- <button matButton (click)="openDialog()">Open dialog</button> -->
       </div>
 
       <div class="card-body" style="background-color: #fdfdff;">
@@ -109,13 +110,27 @@
 </section>
 
 
+
+<!-- Dialog Content -->
+<!-- <ng-template #dialogContent>
+  <h2 mat-dialog-title>Dialog Title</h2>
+  <mat-dialog-content>
+    <p>This is the content of the dialog.</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button matButton mat-dialog-close>Close</button>
+    <button matButton [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+  </mat-dialog-actions>
+</ng-template> -->
+
+
 <!-- Modal -->
 <div class="modal fade" id="bankModal" tabindex="-1" aria-labelledby="bankModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header" style="background: linear-gradient(to right, #a3c4f3, #cdb4db);">
         <h5 class="modal-title text-white fw-bold" id="bankModalLabel">Bank Form</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
       </div>
       <div class="modal-body" style="background: #fdfdff;">
 
@@ -181,12 +196,16 @@
             <table class="table table-bordered table-responsive table-sm table-hover align-middle text-center">
               <thead class="table-light">
                 <tr>
-                  <th>ID</th>
+                  <th>Sl.</th>
                   <th>Branch Name</th>
                   <th>Phone</th>
                   <th>Email</th>
                   <th>Address</th>
-                  <th>Actions</th>
+                  <th>
+                    <button class="btn btn-sm btn-outline-success  m-2" (click)="addBranch()">
+                      <i class="bi bi-plus-circle"></i>
+                    </button>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -194,25 +213,21 @@
                   <td>{{ i + 1 }}</td>
 
                   <td>
-                    <input type=" text" class="form-control form-control-sm"
-                    [(ngModel)]="branch.branchName" placeholder="Branch Name" >
+                    <input type=" text" class="form-control form-control-sm" [(ngModel)]="branch.branchName"
+                      placeholder="Branch Name">
                   </td>
                   <td>
-                    <input type="text" class="form-control-sm"
-                    [(ngModel)]="branch.phone" placeholder="Phone">
+                    <input type="text" class="form-control-sm" [(ngModel)]="branch.phone" placeholder="Phone">
                   </td>
                   <td>
-                    <input type="email" class="form-control form-control-sm" [(ngModel)]="branch.email" placeholder="Email">
+                    <input type="email" class="form-control form-control-sm" [(ngModel)]="branch.email"
+                      placeholder="Email">
                   </td>
 
                   <td>
-                    <input type="text" class="form-control" 
-                    [(ngModel)]="branch.address" placeholder="Address">
+                    <input type="text" class="form-control" [(ngModel)]="branch.address" placeholder="Address">
                   </td>
                   <td>
-                    <button class="btn btn-sm btn-outline-success  m-2" (click)="addBranch()">
-                      <i class="bi bi-plus-circle"></i>
-                    </button>
                     <button class="btn btn-sm btn-outline-danger" (click)="removeBranch(i)">
                       <i class="bi bi-x-circle"></i>
                     </button>
