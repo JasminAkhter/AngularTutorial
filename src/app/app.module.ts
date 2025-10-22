@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +39,7 @@ import { MatInputModule } from '@angular/material/input';
     MatPaginatorModule,
     MatSelectModule,
     MatFormFieldModule,
+    FormsModule,
     MatInputModule,
     AppRoutingModule,
     MatSnackBarModule,

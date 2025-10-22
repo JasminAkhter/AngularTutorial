@@ -24,7 +24,6 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
   nextCursor?: number;  // 🔹 store the cursor for next page
 
   ngAfterViewInit() {
-    
   }
 
   private unsubscribe$ = new Subject<void>();

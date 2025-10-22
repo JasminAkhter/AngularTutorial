@@ -4,10 +4,10 @@ import { Bank } from '../models/bank';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { Branch } from '../models/branch';
 
 
 declare var bootstrap: any;
-//modalInstance: any;
 
 
 @Component({
@@ -21,10 +21,10 @@ export class BankComponent implements OnInit, OnDestroy {
   constructor(private bankService: BankService, private snackBar: MatSnackBar) { }
 
   banks: Bank[] = [];
-  displayedColumns: string[] = ['bankID', 'bankName', 'accountNumber', 'bankAddress', 'openingDate', 'actions'];
+  displayedColumns: string[] = ['bankID', 'bankName', 'accountNumber', 'bankAddress', 'openingDate', 'branches', 'actions'];
 
   //add for paginetion
-  pageSize: number = 10;
+  pageSize: number = 5;
   currentPage: number = 1;
   totalPages: number = 1;
   searchTerm: string = '';
@@ -40,7 +40,8 @@ export class BankComponent implements OnInit, OnDestroy {
     accountNumber: '',
     accountType: '',
     openingDate: '',
-    bankAddress: ''
+    bankAddress: '',
+    branchs: []
   };
 
   private unsubscribe$ = new Subject<void>();
@@ -238,5 +239,27 @@ export class BankComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  addBranch(): void {
+    if (!this.bankData.branchs) {
+      this.bankData.branchs = [];
+    }
+    this.bankData.branchs.push({
+      branchID: 0,
+      branchName: '',
+      phone: '',
+      email: '',
+      address: '',
+      bankID: this.bankData.bankID
+    });
+  }
+
+  removeBranch(index: number): void {
+    if (this.bankData.branchs) {
+      this.bankData.branchs.splice(index, 1);
+    }
+  }
+
+
 
 }

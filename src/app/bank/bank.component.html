@@ -175,6 +175,54 @@
             </div>
           </div>
 
+          <div>
+            <hr>
+            <h4 style="color: #6fa8dc; font-weight: bolder;">Add Branch</h4>
+            <table class="table table-bordered table-responsive table-sm table-hover align-middle text-center">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Branch Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Address</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let branch of bankData.branchs; let i=index">
+                  <td>{{ i + 1 }}</td>
+
+                  <td>
+                    <input type=" text" class="form-control form-control-sm"
+                    [(ngModel)]="branch.branchName" placeholder="Branch Name" >
+                  </td>
+                  <td>
+                    <input type="text" class="form-control-sm"
+                    [(ngModel)]="branch.phone" placeholder="Phone">
+                  </td>
+                  <td>
+                    <input type="email" class="form-control form-control-sm" [(ngModel)]="branch.email" placeholder="Email">
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" 
+                    [(ngModel)]="branch.address" placeholder="Address">
+                  </td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-success  m-2" (click)="addBranch()">
+                      <i class="bi bi-plus-circle"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="removeBranch(i)">
+                      <i class="bi bi-x-circle"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+          </div>
+
           <div class="row">
             <div class="col-12 text-center">
               <button type="submit" class="btn btn-primary btn-lg px-5" data-bs-dismiss="modal"
@@ -185,6 +233,9 @@
           </div>
 
         </form>
+
+
+
       </div>
     </div>
   </div>
