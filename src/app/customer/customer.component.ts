@@ -21,7 +21,7 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private customerService: CustomerService, private snackBar: MatSnackBar) { }
 
   customers: Customer[] = [];
-  nextCursor?: number;  // 🔹 store the cursor for next page
+  nextCursor?: number;  //store the cursor for next page
 
   ngAfterViewInit() {
   }
@@ -68,71 +68,54 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.unsubscribe$.complete();
   }
 
-  // loadCustomers(): void {
-  //   this.isLoading = true;
-  //   const pageNumber = this.pageIndex + 1;  // Convert to 1-based for API
 
-  //   this.customerService.getAll(this.pageIndex, this.pageSize, this.searchText)
-  //     .pipe(takeUntil(this.unsubscribe$))
-  //     .subscribe({
-  //       next: (res: any) => {
-  //       this.dataSource.data = res.data || res.Data || [];
-  //       this.totalRecords = res.totalCount || res.TotalCount || 0;
-  //       this.isLoading = false;
-  //     },
-  //       error: (err) => {
-  //          console.error('Error loading customers:', err);
-  //          this.isLoading = false;
-  //       }
-  //     });
-  // }
 
   loadCustomers(): void {
-  this.isLoading = true;
-  const pageNumber = this.pageIndex + 1;
-  
-  console.log('Loading page:', pageNumber, 'PageIndex:', this.pageIndex); // 🔍 Debug
-  
-  this.customerService.getAll(pageNumber, this.pageSize, this.searchText)
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe({
-      next: (res: any) => {
-        console.log('API Response:', res); // 🔍 Debug
-        this.dataSource.data = res.data || res.Data || [];
-        this.totalRecords = res.totalCount || res.TotalCount || 0;
-        console.log('Total Records:', this.totalRecords); // 🔍 Debug
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Error loading customers:', err);
-        this.isLoading = false;
-      }
-    });
-}
+    this.isLoading = true;
+    const pageNumber = this.pageIndex + 1;
+
+    console.log('Loading page:', pageNumber, 'PageIndex:', this.pageIndex); 
+
+    this.customerService.getAll(pageNumber, this.pageSize, this.searchText)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe({
+        next: (res: any) => {
+          console.log('API Response:', res); 
+          this.dataSource.data = res.data || res.Data || [];
+          this.totalRecords = res.totalCount || res.TotalCount || 0;
+          console.log('Total Records:', this.totalRecords); 
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Error loading customers:', err);
+          this.isLoading = false;
+        }
+      });
+  }
 
   //Pagination event
- onPageChange(event: PageEvent): void {
-  console.log('Page changed:', event); // 🔍 Debug
-  console.log('Page index:', event.pageIndex); // 🔍 Debug
-  console.log('Page size:', event.pageSize); // 🔍 Debug
-  
-  this.pageIndex = event.pageIndex;
-  this.pageSize = event.pageSize;
-  this.loadCustomers();
-}
+  onPageChange(event: PageEvent): void {
+    console.log('Page changed:', event); // 🔍 Debug
+    console.log('Page index:', event.pageIndex); // 🔍 Debug
+    console.log('Page size:', event.pageSize); // 🔍 Debug
+
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.loadCustomers();
+  }
 
   //Search filter (server-side)
   applyFilter(event: Event): void {
-  const input = (event.target as HTMLInputElement).value;
-  this.searchText = input.trim().toLowerCase();
-  this.pageIndex = 0;
-  
-  if (this.paginator) {
-    this.paginator.firstPage();
+    const input = (event.target as HTMLInputElement).value;
+    this.searchText = input.trim().toLowerCase();
+    this.pageIndex = 0;
+
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
+
+    this.loadCustomers();
   }
-  
-  this.loadCustomers();
-}
 
   reset(form?: NgForm): void {
     if (form) {
@@ -142,9 +125,6 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isEditMode = false;
     this.editingCustomerId = undefined;
   }
-
-
-
 
 
   editCustomer(customer: Customer): void {
@@ -165,18 +145,23 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    if (this.isEditMode && this.editingCustomerId != null) {
-      // 🔹 UPDATE EXISTING CUSTOMER
-      this.customerService.update(this.editingCustomerId, this.customerData)
+    if (this.isEditMode && this.customerData.id != null && this.customerData.id > 0) {
+      this.customerService.update(this.customerData.id, this.customerData)
+
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
 
-            this.reset(customerForm); // ✅ pass the form to reset UI + data
+            this.reset(customerForm); //pass the form to reset UI + data
             this.snackBar.open(res.Message || 'Customer updated successfully!', 'Close', {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
+
+            this.loadCustomers();
+            customerForm.resetForm();
+            this.isEditMode = false;
+            this.editingCustomerId = undefined;
           },
           error: (err) => {
             console.error(err);
@@ -184,7 +169,7 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
     } else {
-      // 🔹 CREATE NEW CUSTOMER
+      //  CREATE NEW CUSTOMER
       this.customerService.create(this.customerData)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
@@ -205,18 +190,13 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-
-
-
   deleteCustomer(id?: number): void {
     if (id === undefined || id === null) {
       this.snackBar.open('Invalid customer id', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
       return;
     }
-
     const ok = window.confirm('Are you sure you want to delete this customer?');
     if (!ok) return;
-
     this.customerService.delete(id)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe({
@@ -228,6 +208,7 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['snackbar-success']
           });
 
+          this.loadCustomers();
         },
         error: (err) => {
           console.error('Delete API Error:', err);

@@ -22,8 +22,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-
-
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,11 @@ import {MatButtonModule} from '@angular/material/button';
   imports: [
     BrowserModule,
     FormsModule,
+    MatCardModule,
+    MatRadioModule ,
+    MatSortModule ,
+    MatIconModule ,
+    MatTooltipModule ,
     MatTableModule,
     MatPaginatorModule,
     MatSelectModule,

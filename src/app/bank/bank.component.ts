@@ -172,7 +172,10 @@ export class BankComponent implements OnInit, OnDestroy {
 
   saveBank(bankForm: NgForm): void {
     if (!bankForm.valid) {
-      this.snackBar.open('Please fill all required fields!', 'Close', { duration: 3000, panelClass: ['snackbar-error'] });
+      this.snackBar.open('Please fill all required fields!', 'Close', {
+        duration: 3000,
+        panelClass: ['snackbar-error']
+      });
       return;
     }
 
@@ -181,36 +184,42 @@ export class BankComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (res) => {
-            //new added for edit
-            document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-            document.body.classList.remove('modal-open');
-            document.body.style.removeProperty('overflow');
-            document.body.style.removeProperty('padding-right');
-
+            this.closeModal(); // Close modal first
             this.snackBar.open('Bank updated successfully!', 'Close', {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
-            this.loadBanks();
-            this.reset(bankForm);
-            this.snackBar.open('Bank updated successfully!', 'Close', { duration: 3000, panelClass: ['snackbar-success'] });
+            this.loadBanks(); // Refresh the list
+            this.reset(bankForm); // Reset the form
           },
-          error: (err) => console.error(err)
+          error: (err) => {
+            console.error('Error updating bank:', err);
+            this.snackBar.open('Failed to update bank. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+          }
         });
     } else {
       this.bankService.create(this.bankData)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe({
           next: (data) => {
-            this.banks.push(data);
-            this.snackBar.open('Data added successfully!', 'Close', {
-              duration: 3000, panelClass: ['snackbar-success']
+            this.closeModal(); // Close modal first
+            this.snackBar.open('Bank added successfully!', 'Close', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
             });
-            this.reset(bankForm);
-            this.loadBanks();
-            this.closeModal(); //new added for edit
+            this.loadBanks(); // Refresh the list
+            this.reset(bankForm); // Reset the form
           },
-          error: (err) => console.error(err)
+          error: (err) => {
+            console.error('Error creating bank:', err);
+            this.snackBar.open('Failed to add bank. Please try again.', 'Close', {
+              duration: 3000,
+              panelClass: ['snackbar-error']
+            });
+          }
         });
     }
   }
@@ -230,6 +239,7 @@ export class BankComponent implements OnInit, OnDestroy {
             duration: 3000,
             panelClass: ['snackbar-success']
           });
+          this.loadBanks();
         },
         error: (err) => {
           console.error('Error deleting bank:', err);
@@ -267,6 +277,6 @@ export class BankComponent implements OnInit, OnDestroy {
   //   this.dialog.open(this.dialogTemplate);
   // }
   // dialogTemplate: any;
-  
+
 
 }

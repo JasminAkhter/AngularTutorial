@@ -13,14 +13,6 @@ export class CustomerService {
 
   constructor(private httpClient: HttpClient) { }
 
-
-  // getAll(pageSize: number = 5, lastId?: number): Observable<any> {
-  //   const params: any = { pageSize };
-  //   if (lastId !== undefined) params.lastId = lastId;
-
-  //   return this.httpClient.get<any>(apiUrl, { params });
-  // }
-
   getAll(pageNumber: number = 1, pageSize: number = 5, search: string = ''): Observable<any>{
     const params: any = {pageNumber, pageSize};
     return this. httpClient.get(apiUrl, { params });
