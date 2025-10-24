@@ -105,7 +105,7 @@ export class CustomerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   //Search filter (server-side)
-  applyFilter(event: Event): void {
+  search(event: Event): void {
     const input = (event.target as HTMLInputElement).value;
     this.searchText = input.trim().toLowerCase();
     this.pageIndex = 0;

@@ -14,7 +14,7 @@ export class CustomerService {
   constructor(private httpClient: HttpClient) { }
 
   getAll(pageNumber: number = 1, pageSize: number = 5, search: string = ''): Observable<any>{
-    const params: any = {pageNumber, pageSize};
+    const params: any = {pageNumber, pageSize, search};
     return this. httpClient.get(apiUrl, { params });
   }
 
